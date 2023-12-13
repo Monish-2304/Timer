@@ -1,0 +1,53 @@
+
+.mainContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 15rem;
+}
+
+.inputContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-bottom: 15px;
+}
+
+.heading {
+  color: #06484f;
+  margin-bottom: 10px;
+}
+
+.inputBox {
+  color: white;
+  font-size: 1rem;
+  border-radius: 5px;
+  height: 2rem;
+  padding: 6px;
+  outline: none;
+}
+
+.displaySection {
+  display: flex;
+  align-items: center;
+  font-size: 24px;
+  color: #319bcc;
+}
+
+.icon {
+  font-size: 32px;
+  cursor: pointer;
+  color: #319bcc;
+  margin-left: 10px;
+}
+@media (max-width: 767.98px) {
+  .inputBox {
+    width: 16rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .inputBox {
+    width: 30rem;
+  }
+}

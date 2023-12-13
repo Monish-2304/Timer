@@ -29,10 +29,10 @@ npm run start
 
 2. When clicked on play icon , timer starts decremneting until it reaches 0.
 
-3. If input is changed in middle, countdown stops and resets to the value given.
+3. If input is changed in middle, countdown stops and resets.
 
 4. If clicked on pause button , time stops decrementing and on clicking play icon it resumes from where it was stopped.
 
-5. A reset button is given to reset the timer to given input value.
+5. A reset button is given to reset the timer.
 
 

@@ -7,35 +7,38 @@ function App() {
   const [inputValue, setInputValue] = useState('');
   const [time, setTime] = useState(0);
   const [isTimerRunning, setIsTimerRunning] = useState(false);
-  const [timer, setTimer] = useState(null);
-
+  const [currentTime, setCurrentTime] = useState(0);
 
   useEffect(() => {
-    let timer;
-
+    let timer=null;
+    
     if (isTimerRunning && inputValue !== '') {
-      if (time === 0) {
-        const totalTime = parseInt(inputValue) * 60;
-        setTime(totalTime);
+      const totalTime = parseInt(inputValue) * 60;
+      setTime(totalTime);
+      //keep storing time in this variable, its used when counter is stooped and played again
+      if (currentTime > 0) {
+        setTime(currentTime);
       }
-      
-      timer = setInterval(() => {
-        setTime(prevTime => {
-          if (prevTime <= 0) {
-            clearInterval(timer);
-            setIsTimerRunning(false);
-            return 0;
-          }
-          return prevTime - 1;
-        });
-      }, 1000);
+
+        timer = setInterval(() => {
+          setTime(prevTime => {
+            if (prevTime <= 0) {
+              clearInterval(timer);
+              setIsTimerRunning(false);
+              setInputValue('0');
+              return 0;
+            }
+            return prevTime - 1;
+          });
+        }, 1000);
     } else {
       clearInterval(timer);
     }
+    return () => {clearInterval(timer);
+   }
+}, [isTimerRunning, inputValue,currentTime]);
 
-    return () => clearInterval(timer);
-  }, [isTimerRunning, inputValue, time]);
-
+ //to convert minutes into hr:min:sec
   const formatTime = (time) => {
     const hours = Math.floor(time / 3600).toString().padStart(2, '0');
     const minutes = Math.floor((time % 3600) / 60).toString().padStart(2, '0');
@@ -43,23 +46,16 @@ function App() {
     return `${hours}:${minutes}:${seconds}`;
   };
 
-  const handlePlay = () => {
-    setIsTimerRunning(prevState => !prevState);
-   
-   
-  };
+  
   const handlePlayPause = () => {
     setIsTimerRunning(prevState => !prevState);
-    if(time!=inputValue){
-      const inputValueInSeconds = parseInt(inputValue) * 60;
-      setTime(inputValueInSeconds);
-    }
+    setCurrentTime(time);
   };
 
   const handleReset = () => {
-    setIsTimerRunning(false);
-  const inputValueInSeconds = parseInt(inputValue) * 60;
-  setTime(inputValueInSeconds);
+  setIsTimerRunning(false);
+  setInputValue('0');
+  setTime(0);
   };
 
   return (
@@ -68,13 +64,17 @@ function App() {
     <h1 className="heading">Enter minutes</h1>
       <input className="inputBox" type="number"  onChange={e => {
             setInputValue(e.target.value);
+            setTime(0)
             setIsTimerRunning(false); 
-          }}/>
+           
+          }}
+            value={inputValue}
+          />
     </div>
     <div className="displaySection">
     {formatTime(time)}
         {isTimerRunning ? (
-          <FaPauseCircle onClick={handlePlay} className="icon" />
+          <FaPauseCircle onClick={handlePlayPause} className="icon" />
         ) : (
           <FaPlayCircle onClick={handlePlayPause} className="icon" />
         )}
